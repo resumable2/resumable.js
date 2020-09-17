@@ -3,6 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import pkg from './package.json';
 import replace from '@rollup/plugin-replace';
 import resolve from '@rollup/plugin-node-resolve';
+import strip from '@rollup/plugin-strip';
 import { terser } from "rollup-plugin-terser";
 
 let plugins = [
@@ -29,7 +30,7 @@ export default [
     },
     {
         input: 'src/flow.js',
-        plugins: plugins.concat([terser()]),
+        plugins: plugins.concat([strip({functions:['console.(log|debug)','debug','alert']}), terser()]),
         output: {
             name: 'Flow',
             banner: `/*! ${pkg.name} ${pkg.version} */\n`,
